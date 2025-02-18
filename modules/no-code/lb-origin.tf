@@ -1,5 +1,5 @@
 resource "volterra_http_loadbalancer" "lb" {
-  name        = format("%s-nocode-example", var.f5xc_prefix)
+  name        = var.f5xc_object_name
   namespace   = var.f5xc_namespace
   description = "Pattern A1 TF deployment zero-code module"
   domains     = [var.f5xc_lb_domains]
@@ -94,7 +94,7 @@ resource "volterra_http_loadbalancer" "lb" {
 }
 
 resource "volterra_origin_pool" "origin" {
-  name                   = format("%s-nocode-example", var.f5xc_prefix)
+  name                   = var.f5xc_object_name
   namespace              = var.f5xc_namespace
   description            = "Pattern A1 TF deployment zero-code module"
   loadbalancer_algorithm = "LB_OVERRIDE"
@@ -147,17 +147,19 @@ resource "volterra_origin_pool" "origin" {
       }
     }
   }
-  
+
   port               = var.f5xc_origin_port
   endpoint_selection = "LOCAL_PREFERRED"
-  use_tls {
-    no_mtls                  = true
-    skip_server_verification = true
-    tls_config {
-      default_security = true
-    }
-    use_host_header_as_sni = true
-  }
+  no_tls             = true
+  # use_tls {
+  #   no_mtls                  = true
+  #   skip_server_verification = true
+  #   tls_config {
+  #     default_security = true
+  #   }
+  #   use_host_header_as_sni = true
+  # }
+
   healthcheck {
     name      = volterra_healthcheck.healthcheck.name
     namespace = var.f5xc_namespace
@@ -165,19 +167,27 @@ resource "volterra_origin_pool" "origin" {
   lifecycle {
     ignore_changes = [
       healthcheck[0].tenant,
+      origin_servers[0].consul_service
       # origin_servers,
-      use_tls
+      # use_tls
     ]
   }
 }
 
 resource "volterra_healthcheck" "healthcheck" {
-  name      = format("%s-nocode-example", var.f5xc_prefix)
+  name      = var.f5xc_object_name
   namespace = var.f5xc_namespace
 
   http_health_check {
     use_origin_server_name = true
     path                   = var.f5xc_origin-healthcheck-path
+    use_http2              = false
+    headers = {
+      Connection = "close"
+    }
+    request_headers_to_remove = [
+      "user-agent"
+    ]
   }
 
   healthy_threshold   = 3
@@ -187,7 +197,7 @@ resource "volterra_healthcheck" "healthcheck" {
 }
 
 resource "volterra_app_firewall" "recommended" {
-  name      = format("%s-nocode-example", var.f5xc_prefix)
+  name      = var.f5xc_object_name
   namespace = "shared"
 
   blocking = true

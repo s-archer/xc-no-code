@@ -8,6 +8,7 @@ f5xc_namespace    = "<my namespace>"
 
 # Choose a unique prefix for object names (suggest a short version of application name)
 f5xc_prefix = "<my prefix>"
+f5xc_suffix = "nocode-example"
 
 # F5 Distributed Cloud LB Details - Per App
 # Configure the LB name, the domain the LB will listen on (match Host header) 

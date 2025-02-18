@@ -1,5 +1,15 @@
 # F5 XC No-Code Terraform Module Example
 
+The Terraform configuration will create the following objects within the F5 XC Platform:
+
+- HTTPS Load-Balancer, with WAF, API Discovery & Security
+- Origin Pool
+- Health Check
+- WAF Policy
+- API Token
+- API Swagger Spec
+- API Definition
+
 ## How to use this example (XC Administrator)
 
 - In [Module lb-origin.tf](./modules/no-code/lb-origin.tf) update the configuration to meet your requirements.
@@ -16,4 +26,10 @@
 
 	`export VES_P12_PASSWORD=<cert passphrase>`
 
+- Replace example swagger-juice.* files with your application swagger file (OpenAPI spec) and reference the file name in `f5xc_swagger_filename` var in [`vars.auto.tfvars`](./vars.auto.tfvars)
+- Initialise, plan and apply terraform in the usual way.
+
+## How to use this example (Application Team) to update swagger
+
+- To update swagger, add the new swagger file and reference the new file name in `f5xc_swagger_filename` var in [`vars.auto.tfvars`](./vars.auto.tfvars)
 - Initialise, plan and apply terraform in the usual way.

@@ -1,8 +1,9 @@
-locals {
-  f5xc_api_spec_name = format("%s-nocode-example", var.f5xc_prefix)
+variable "f5xc_api_spec_base_uri" {
+  type    = string
+  default = "%s/object_store/namespaces/%s/stored_objects/swagger"
 }
 
-variable "f5xc_api_spec_base_uri" {
+variable "f5xc_api_spec_swagger_uri" {
   type    = string
   default = "/object_store/namespaces/%s/stored_objects/swagger/%s"
 }
@@ -10,6 +11,10 @@ variable "f5xc_api_spec_base_uri" {
 variable "f5xc_api_spec_object_uri" {
   type    = string
   default = "/object_store/namespaces/%s/stored_objects/swagger/%s/$(body.metadata.version)"
+}
+
+variable "f5xc_object_name" {
+  type = string
 }
 
 variable "f5xc_api_url" {
@@ -21,10 +26,6 @@ variable "f5xc_api_p12_file" {
 }
 
 variable "f5xc_api_token" {
-  type = string
-}
-
-variable "f5xc_prefix" {
   type = string
 }
 

@@ -6,7 +6,7 @@ module "xc_lb" {
   f5xc_namespace               = var.f5xc_namespace
   f5xc_tenant_full             = var.f5xc_tenant_full
   f5xc_lb_domains              = var.f5xc_lb_domains
-  f5xc_prefix                  = var.f5xc_prefix
+  f5xc_object_name             = local.f5xc_object_name
   f5xc_origin_fqdns            = var.f5xc_origin_fqdns
   f5xc_origin_discovery        = var.f5xc_origin_discovery
   f5xc_origin_ips              = var.f5xc_origin_ips

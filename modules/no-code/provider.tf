@@ -2,7 +2,7 @@ terraform {
   required_providers {
     volterra = {
       source  = "volterraedge/volterra"
-      version = "0.11.40"
+      version = "0.11.43"
     }
     restful = {
       source  = "magodo/restful"
@@ -17,7 +17,7 @@ provider "volterra" {
 }
 
 provider "restful" {
-  alias = "f5_xc_api"
+  alias    = "f5_xc_api"
   base_url = var.f5xc_api_url
   security = {
     apikey = [
@@ -27,5 +27,5 @@ provider "restful" {
         value = format("APIToken %s", var.f5xc_api_token)
       },
     ]
-  }  
+  }
 }
