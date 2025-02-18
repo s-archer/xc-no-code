@@ -5,11 +5,6 @@ rendered_kubeconfig.yaml
 *.pem
 *.key
 *.tfvars
-vars.tf
-./vars.tf
-!modules/no-code/vars.tf
-/vars.tf
-/*/vars.tf
 kubeconfig.yaml
 kube_config.yaml
 /kube_config.yaml
