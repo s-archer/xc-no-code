@@ -30,11 +30,11 @@ resource "volterra_http_loadbalancer" "lb" {
     # default_captcha_challenge_parameters = true
   }
 
-  user_identification {
-    tenant    = var.f5xc_tenant_full
-    namespace = "shared"
-    name      = "akamai-true-client-ip"
-  }
+  # user_identification {
+  #   tenant    = var.f5xc_tenant_full
+  #   namespace = "shared"
+  #   name      = "akamai-true-client-ip"
+  # }
 
   enable_ip_reputation {
     ip_threat_categories = [

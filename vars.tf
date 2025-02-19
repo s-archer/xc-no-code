@@ -61,3 +61,7 @@ variable "f5xc_origin_virtual_site" {
 variable "f5xc_swagger_filename" {
   type = string
 }
+
+variable "f5xc_swagger_format" {
+  type = string
+}

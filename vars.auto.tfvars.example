@@ -37,5 +37,6 @@ f5xc_origin-healthcheck-path = "/path-to-check"
 f5xc_origin_virtual_site     = "<my vsite 1>"
 
 # If using an API swagger file, upload into the terraform root folder (same folder as this 
-#  readme) and add the name of the file here.
-f5xc_swagger_filename        = "my_filename.yaml"
+#  readme) and add the name of the file here.  And set fromat to either "json" or "yaml".
+f5xc_swagger_filename = "my-swagger-file.json"
+f5xc_swagger_format   = "json"

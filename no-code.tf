@@ -14,4 +14,5 @@ module "xc_lb" {
   f5xc_origin-healthcheck-path = var.f5xc_origin-healthcheck-path
   f5xc_origin_virtual_site     = var.f5xc_origin_virtual_site
   f5xc_swagger_filename        = var.f5xc_swagger_filename
+  f5xc_swagger_format          = var.f5xc_swagger_format
 }
