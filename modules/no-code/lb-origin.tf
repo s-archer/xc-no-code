@@ -30,11 +30,11 @@ resource "volterra_http_loadbalancer" "lb" {
     # default_captcha_challenge_parameters = true
   }
 
-  # user_identification {
-  #   tenant    = var.f5xc_tenant_full
-  #   namespace = "shared"
-  #   name      = "akamai-true-client-ip"
-  # }
+  user_identification {
+    tenant    = var.f5xc_tenant_full
+    namespace = "shared"
+    name      = volterra_user_identification.recommended.name
+  }
 
   enable_ip_reputation {
     ip_threat_categories = [
@@ -206,4 +206,14 @@ resource "volterra_app_firewall" "recommended" {
   default_anonymization      = true
   use_default_blocking_page  = true
   default_detection_settings = true
+}
+
+resource "volterra_user_identification" "recommended" {
+  name      = var.f5xc_object_name
+  namespace = "shared"
+
+  rules {
+
+    ip_and_ja4_tls_fingerprint = true
+  }
 }
