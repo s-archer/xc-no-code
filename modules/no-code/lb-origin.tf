@@ -25,8 +25,8 @@ resource "volterra_http_loadbalancer" "lb" {
   }
 
   enable_challenge {
-    # default_mitigation_settings = true 
-    # default_js_challenge_parameters = true 
+    # default_mitigation_settings = true
+    # default_js_challenge_parameters = true
     # default_captcha_challenge_parameters = true
   }
 
@@ -59,13 +59,47 @@ resource "volterra_http_loadbalancer" "lb" {
       namespace = var.f5xc_namespace
       name      = volterra_api_definition.api-def.name
     }
-    validation_disabled = true
+    # validation_disabled = true
+    validation_all_spec_endpoints {
+      fall_through_mode {
+        fall_through_mode_allow = true
+      }
+      validation_mode {
+        validation_mode_active {
+          enforcement_block = true
+          request_validation_properties = [
+            "PROPERTY_PATH_PARAMETERS",
+            "PROPERTY_QUERY_PARAMETERS",
+            "PROPERTY_HTTP_HEADERS"
+          ]
+        }
+      }
+      settings {
+        oversized_body_skip_validation = true
+        property_validation_settings_default = true
+      }
+    }
   }
 
   enable_api_discovery {
     disable_learn_from_redirect_traffic = true
     discovered_api_settings {
       purge_duration_for_inactive_discovered_apis = "2"
+    }
+    api_crawler {
+      api_crawler_config {
+        domains {
+          domain = "nocode.f5xc.co.uk"
+          simple_login {
+            user = "user123"
+            password {
+              clear_secret_info {
+                url = "string:///dGVzdDEyMw=="
+              }
+            }
+          }
+        }
+      }
     }
   }
 
@@ -109,6 +143,7 @@ resource "volterra_origin_pool" "origin" {
           virtual_site {
             name      = var.f5xc_origin_virtual_site
             namespace = "shared"
+            tenant    = "f5-emea-ent-bceuutam"
           }
         }
       }
@@ -126,6 +161,7 @@ resource "volterra_origin_pool" "origin" {
           virtual_site {
             name      = var.f5xc_origin_virtual_site
             namespace = "shared"
+            tenant    = "f5-emea-ent-bceuutam"
           }
         }
       }
@@ -142,6 +178,7 @@ resource "volterra_origin_pool" "origin" {
           site {
             name      = var.f5xc_origin_virtual_site
             namespace = "system"
+            tenant    = "f5-emea-ent-bceuutam"
           }
         }
       }
@@ -150,15 +187,15 @@ resource "volterra_origin_pool" "origin" {
 
   port               = var.f5xc_origin_port
   endpoint_selection = "LOCAL_PREFERRED"
-  no_tls             = true
-  # use_tls {
-  #   no_mtls                  = true
-  #   skip_server_verification = true
-  #   tls_config {
-  #     default_security = true
-  #   }
-  #   use_host_header_as_sni = true
-  # }
+  # no_tls             = true
+  use_tls {
+    no_mtls                  = true
+    skip_server_verification = true
+    tls_config {
+      default_security = true
+    }
+    use_host_header_as_sni = true
+  }
 
   healthcheck {
     name      = volterra_healthcheck.healthcheck.name

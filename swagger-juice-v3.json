@@ -1,19 +1,10 @@
 {
-  "components": {
-    "securitySchemes": {
-      "jwtBearerAuth": {
-        "bearerFormat": "JWT",
-        "scheme": "bearer",
-        "type": "http"
-      }
-    }
-  },
+  "openapi": "3.0.3",
   "info": {
     "description": "",
     "title": "juice-shop APIs",
     "version": "v1"
   },
-  "openapi": "3.0.3",
   "security": [{"jwtBearerAuth": []}],
   "paths": {
     "/api/v3-fakepath": {
@@ -3506,6 +3497,15 @@
             "description": ""
           }
         }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "jwtBearerAuth": {
+        "bearerFormat": "JWT",
+        "scheme": "bearer",
+        "type": "http"
       }
     }
   }

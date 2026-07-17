@@ -1,0 +1,25 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  "volterra_api_credential.api-creds" [label="volterra_api_credential.api-creds"];
+  subgraph "cluster_module.xc_lb" {
+    label = "module.xc_lb"
+    fontname = "sans-serif"
+    "module.xc_lb.data.http.api-spec" [label="data.http.api-spec"];
+    "module.xc_lb.restful_resource.api-spec" [label="restful_resource.api-spec"];
+    "module.xc_lb.volterra_api_definition.api-def" [label="volterra_api_definition.api-def"];
+    "module.xc_lb.volterra_app_firewall.recommended" [label="volterra_app_firewall.recommended"];
+    "module.xc_lb.volterra_healthcheck.healthcheck" [label="volterra_healthcheck.healthcheck"];
+    "module.xc_lb.volterra_http_loadbalancer.lb" [label="volterra_http_loadbalancer.lb"];
+    "module.xc_lb.volterra_origin_pool.origin" [label="volterra_origin_pool.origin"];
+    "module.xc_lb.volterra_user_identification.recommended" [label="volterra_user_identification.recommended"];
+  }
+  "module.xc_lb.data.http.api-spec" -> "module.xc_lb.restful_resource.api-spec";
+  "module.xc_lb.restful_resource.api-spec" -> "volterra_api_credential.api-creds";
+  "module.xc_lb.volterra_api_definition.api-def" -> "module.xc_lb.data.http.api-spec";
+  "module.xc_lb.volterra_http_loadbalancer.lb" -> "module.xc_lb.volterra_api_definition.api-def";
+  "module.xc_lb.volterra_http_loadbalancer.lb" -> "module.xc_lb.volterra_app_firewall.recommended";
+  "module.xc_lb.volterra_http_loadbalancer.lb" -> "module.xc_lb.volterra_origin_pool.origin";
+  "module.xc_lb.volterra_http_loadbalancer.lb" -> "module.xc_lb.volterra_user_identification.recommended";
+  "module.xc_lb.volterra_origin_pool.origin" -> "module.xc_lb.volterra_healthcheck.healthcheck";
+}
